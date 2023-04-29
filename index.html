@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Calculadora de Gastos de Gasolina</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<h1>Calculadora de Gastos de Gasolina</h1>
+		<form>
+			<div class="form-group">
+				<label for="distancia">Distância percorrida (km):</label>
+				<input type="text" class="form-control" id="distancia">
+			</div>
+			<div class="form-group">
+				<label for="eficiencia">Eficiência do veículo (km/L): <br> ("Moto ou Carro")</label>
+				<input type="text" class="form-control" id="eficiencia">
+			</div>
+			<div class="form-group">
+				<label for="preco">Preço atual do combustível por litro (R$):</label>
+				<input type="text" class="form-control" id="preco">
+			</div>
+			<button type="submit" class="btn btn-primary">Calcular</button>
+			<button type="button" class="btn btn-secondary ml-2" id="limpar">Limpar</button>
+			<button type="button" class="btn btn-success ml-2" id="whatsapp">Enviar por WhatsApp</button>
+		</form>
+		<div id="resultado" class="mt-4"></div>
+		
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<script>
+		$(function() {
+			$('form').submit(function(event) {
+				event.preventDefault();
+				var distancia = parseFloat($('#distancia').val());
+				var eficiencia = parseFloat($('#eficiencia').val());
+				var preco = parseFloat($('#preco').val());
+				
+				if (isNaN(distancia) || isNaN(eficiencia) || isNaN(preco)) {
+					alert('Por favor, digite valores numéricos válidos.');
+					return;
+				}
+				
+				var litros = distancia / eficiencia;
+				var custo = litros * preco;
+				$('#resultado').html('<div class="alert alert-success" role="alert">O valor gasto em gasolina foi de R$' + custo.toFixed(2) + '.</div>');
+});
+        $('#limpar').click(function() {
+                    $('form').trigger('reset');
+                    $('#resultado').empty();
+                });
+		
+		$('#whatsapp').click(function() {
+			var distancia = parseFloat($('#distancia').val());
+			var eficiencia = parseFloat($('#eficiencia').val());
+			var preco = parseFloat($('#preco').val());
+			
+			if (isNaN(distancia) || isNaN(eficiencia) || isNaN(preco)) {
+				alert('Por favor, digite valores numéricos válidos.');
+				return;
+			}
+			
+			var litros = distancia / eficiencia;
+			var custo = litros * preco;
+			var mensagem = 'O valor gasto em gasolina foi de R$' + custo.toFixed(2);
+			var url = 'https://wa.me/?text=' + encodeURIComponent(mensagem);
+			window.open(url);
+		});
+	});
+</script>
+</body>
+</html>
