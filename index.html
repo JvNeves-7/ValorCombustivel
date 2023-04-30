@@ -4,6 +4,115 @@
 	<meta charset="utf-8">
 	<title>Calculadora de Gastos de Gasolina</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<style>
+	
+		body {
+			background-color: #F5F5F5;
+			color: #333333;
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			line-height: 1.5;
+			margin: 0;
+			padding: 0;
+		}
+
+		h1 {
+			color: #007bff;
+			font-size: 32px;
+			font-weight: bold;
+			margin-bottom: 24px;
+			text-align: center;
+			text-transform: uppercase;
+		}
+
+		.container {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 48px 24px;
+		}
+
+		.form-group label {
+			color: #007bff;
+			font-size: 18px;
+			font-weight: bold;
+			margin-bottom: 8px;
+			text-transform: uppercase;
+		}
+
+		.form-group input[type="text"] {
+			background-color: #FFFFFF;
+			border: 1px solid #CCCCCC;
+			border-radius: 4px;
+			color: #333333;
+			font-size: 16px;
+			padding: 8px;
+			width: 100%;
+		}
+
+		.btn-primary {
+			background-color: #007bff;
+			border-color: #007bff;
+			color: #FFFFFF;
+			font-size: 18px;
+			font-weight: bold;
+			padding: 8px 16px;
+			text-transform: uppercase;
+		}
+
+		.btn-primary:hover {
+			background-color: #0069d9;
+			border-color: #0062cc;
+			color: #FFFFFF;
+		}
+
+		.btn-secondary {
+			background-color: #6c757d;
+			border-color: #6c757d;
+			color: #FFFFFF;
+			font-size: 18px;
+			font-weight: bold;
+			padding: 8px 16px;
+			text-transform: uppercase;
+		}
+
+		.btn-secondary:hover {
+			background-color: #5a6268;
+			border-color: #545b62;
+			color: #FFFFFF;
+		}
+
+		.btn-success {
+			background-color: #28a745;
+			border-color: #28a745;
+			color: #FFFFFF;
+			font-size: 18px;
+			font-weight: bold;
+			padding: 8px 16px;
+			text-transform: uppercase;
+		}
+
+		.btn-success:hover {
+			background-color: #218838;
+			border-color: #1e7e34;
+			color: #FFFFFF;
+		}
+
+		#resultado {
+			margin-top: 24px;
+		}
+
+		.alert-success {
+			background-color: #d4edda;
+			border-color: #c3e6cb;
+			color: #155724;
+			font-size: 18px;
+			font-weight: bold;
+			margin-bottom: 16px;
+			padding: 16px;
+			text-align: center;
+		}
+	
+	</style>
 </head>
 <body>
 	<div class="container">
