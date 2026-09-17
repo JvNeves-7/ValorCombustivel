@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FuelCalc — Calculadora de Custo de Combustível</title>
+  <meta name="description" content="Calcule o custo de viagem, litros necessários e custo por km. Compare etanol x gasolina e compartilhe no WhatsApp." />
+  <meta name="theme-color" content="#16a34a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="FuelCalc" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2316a34a'><path d='M3 22V5c0-.8.4-1.6 1-2.1.6-.5 1.4-.7 2.2-.5L11 3.5V2h2v2.3l3.4.7c1.2.3 2.1 1.4 2.1 2.7V20h2v2H3v-2h2v-2H3v-2h2v-2H3v-2h2V9H3V7h2V5H3v17Zm7-14.5 4.5 1v9.1l-2.3 1.4-2.2-1.4V7.5Z'/></svg>" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 22V5c0-.8.4-1.6 1-2.1.6-.5 1.4-.7 2.2-.5L11 3.5V2h2v2.3l3.4.7c1.2.3 2.1 1.4 2.1 2.7V20h2v2H3v-2h2v-2H3v-2h2v-2H3v-2h2V9H3V7h2V5H3v17Zm7-14.5 4.5 1v9.1l-2.3 1.4-2.2-1.4V7.5Z"/></svg>
+        </div>
+        <div>
+          <strong>FuelCalc</strong>
+          <span>Calculadora de combustível</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="badge">v2.1 • PWA</span>
+        <button class="btn btn-primary btn-install" id="install-btn" type="button" hidden>📲 Instalar app</button>
+        <button class="btn btn-icon" id="theme-toggle" type="button" aria-label="Alternar tema">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Quanto vai custar <span>sua viagem?</span></h1>
+      <p>Calcule litros necessários, custo total e custo por km em segundos. Funciona com vírgula, salva histórico e compartilha no WhatsApp.</p>
+    </section>
+
+    <section class="grid">
+      <!-- Formulário -->
+      <div class="card">
+        <div class="card-head">
+          <h2>Dados da viagem</h2>
+          <p class="muted">Preencha os 3 campos. Aceita vírgula como decimal (ex: 5,89).</p>
+        </div>
+
+        <form id="fuel-form" novalidate>
+          <div class="field">
+            <label for="distancia">Distância percorrida</label>
+            <div class="input-wrap">
+              <input type="text" inputmode="decimal" id="distancia" name="distancia" placeholder="Ex: 250" autocomplete="off" required aria-describedby="err-distancia" />
+              <span class="suffix">km</span>
+            </div>
+            <span class="error" id="err-distancia">Informe uma distância maior que zero.</span>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="eficiencia">Consumo do veículo</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="eficiencia" name="eficiencia" placeholder="Ex: 12,5" autocomplete="off" required aria-describedby="err-eficiencia" />
+                <span class="suffix">km/L</span>
+              </div>
+              <span class="error" id="err-eficiencia">Informe um consumo maior que zero.</span>
+            </div>
+
+            <div class="field">
+              <label for="preco">Preço por litro</label>
+              <div class="input-wrap">
+                <input type="text" inputmode="decimal" id="preco" name="preco" placeholder="Ex: 5,89" autocomplete="off" required aria-describedby="err-preco" />
+                <span class="suffix">R$</span>
+              </div>
+              <span class="error" id="err-preco">Informe um preço maior que zero.</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="tipo">Tipo de combustível</label>
+            <select id="tipo" name="tipo">
+              <option value="gasolina" selected>Gasolina</option>
+              <option value="etanol">Etanol</option>
+              <option value="diesel">Diesel</option>
+              <option value="gnv">GNV</option>
+            </select>
+          </div>
+
+          <div class="hint">💡 Fórmula: <strong>litros = distância ÷ consumo</strong> → <strong>custo = litros × preço</strong></div>
+
+          <div class="actions">
+            <button type="submit" class="btn btn-primary">Calcular custo</button>
+            <button type="button" class="btn btn-ghost" id="limpar">Limpar</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Resultado -->
+      <div class="card" aria-live="polite">
+        <div class="card-head">
+          <h2>Resultado</h2>
+          <p class="muted">Custo total, litros e custo por quilômetro.</p>
+        </div>
+        <div id="resultado">
+          <div class="result-empty">
+            <p><strong>Nenhum cálculo ainda</strong></p>
+            <p>Preencha os campos e clique em <strong>Calcular custo</strong> para ver o custo da viagem.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="two-col">
+      <div class="card">
+        <div class="card-head">
+          <h2>Etanol ou gasolina?</h2>
+          <p class="muted">Regra dos 70%: se o etanol custar menos de 70% da gasolina, ele compensa.</p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="comp-gasolina">Gasolina (R$/L)</label>
+            <input type="text" inputmode="decimal" id="comp-gasolina" placeholder="Ex: 5,89" />
+          </div>
+          <div class="field">
+            <label for="comp-etanol">Etanol (R$/L)</label>
+            <input type="text" inputmode="decimal" id="comp-etanol" placeholder="Ex: 3,89" />
+          </div>
+        </div>
+        <button class="btn btn-ghost" id="compare-btn" type="button">Comparar</button>
+        <p class="compare-result" id="compare-result" aria-live="polite"></p>
+      </div>
+
+      <div class="card">
+        <div class="card-head" style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+          <div>
+            <h2>Histórico</h2>
+            <p class="muted">Últimos cálculos salvos neste navegador.</p>
+          </div>
+          <button class="link-btn" id="history-clear" type="button">Limpar tudo</button>
+        </div>
+        <div class="history-list" id="history-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="year"></span> FuelCalc • Feito para motoristas</span>
+      <span>Sem dependências • Rápido • Responsivo • Funciona offline após carregar</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="assets/js/app.js" defer></script>
+</body>
+</html>
